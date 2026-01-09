@@ -1,0 +1,7 @@
+Name: Signature Architectural Portfolio
+Version: 1.0
+Status: Locked
+Date: October 2025
+Notes:
+- Represents current architectural identity
+- Based on selected works until 2025
