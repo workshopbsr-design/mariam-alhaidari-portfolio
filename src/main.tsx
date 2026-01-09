@@ -4,7 +4,7 @@ import { createRoot } from 'react-dom/client';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LanguageProvider, useLang } from './language-context';
 import { Header } from './app/Header';
-import { Home } from './Home';
+import { Home } from "./app/Home";
 import { Projects } from './Projects';
 import { About } from './app/About';
 import { AiGenerator } from './app/AiGenerator';
