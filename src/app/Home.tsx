@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { useLang } from './language-context';
+import { useLang } from '../language-context';
 import { ArrowRight, Fingerprint } from 'lucide-react';
 
 export const Home = ({ onNavigate, info }: any) => {
