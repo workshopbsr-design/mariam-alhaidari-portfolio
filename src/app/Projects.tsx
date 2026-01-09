@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import import { useLang } from '../language-context';
+import { useLang } from '../language-context';
 import { X, ChevronRight, ChevronLeft, Layers, Image as ImageIcon, Video, Box, ExternalLink, Filter, PenTool, Lightbulb, CheckCircle, Info, GitBranch, Quote, Star, MessageSquare, Send, User, Trophy } from 'lucide-react';
 import { db } from './app/firebase';
 import { collection, addDoc, query, where, onSnapshot, orderBy, serverTimestamp } from 'firebase/firestore';
