@@ -1,5 +1,4 @@
-import type { Project } from "../types/project";
-export const PROJECTS: Project[] = [
+
 export const PROJECTS = [
   {
     id: "p1",
