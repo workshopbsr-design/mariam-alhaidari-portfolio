@@ -1,12 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { useLang } from '../language-context'; // تأكد من مسار هذا الملف
+import { useLang } from '../language-context';
 import { ArrowRight, Fingerprint } from 'lucide-react';
 
 export const Home = ({ onNavigate, info }: any) => {
   const { lang } = useLang();
 
-  // ===== DATA DEFINITION =====
+  // تعريف البيانات للنصوص (Data Definition)
   const hero = {
     role: {
       en: 'Architect & Interior Designer',
@@ -52,6 +52,7 @@ export const Home = ({ onNavigate, info }: any) => {
     },
   };
 
+  // تحديد اسم المهندس بناءً على اللغة
   const architectName =
     (lang === 'ar'
       ? info?.nameAr
@@ -62,7 +63,7 @@ export const Home = ({ onNavigate, info }: any) => {
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center px-4 pt-28 pb-20 overflow-hidden">
       
-      {/* Background */}
+      {/* Background Image */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -77,10 +78,10 @@ export const Home = ({ onNavigate, info }: any) => {
         <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black" />
       </motion.div>
 
-      {/* Content Container */}
+      {/* Main Content Container */}
       <div className="relative z-10 text-center max-w-6xl mx-auto">
 
-        {/* Role */}
+        {/* Role Badge */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -92,7 +93,7 @@ export const Home = ({ onNavigate, info }: any) => {
           </span>
         </motion.div>
 
-        {/* Name */}
+        {/* Architect Name */}
         <motion.h1
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -112,7 +113,7 @@ export const Home = ({ onNavigate, info }: any) => {
           {hero.title[lang]}
         </motion.h2>
 
-        {/* Sub */}
+        {/* Subtitle */}
         <motion.p
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -122,7 +123,7 @@ export const Home = ({ onNavigate, info }: any) => {
           {hero.sub[lang]}
         </motion.p>
 
-        {/* CTA */}
+        {/* Call to Action Button */}
         <motion.button
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -134,7 +135,7 @@ export const Home = ({ onNavigate, info }: any) => {
           <ArrowRight size={18} />
         </motion.button>
 
-        {/* DNA Section */}
+        {/* DNA Section (الذي كان يسبب الخطأ سابقاً) */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -160,7 +161,7 @@ export const Home = ({ onNavigate, info }: any) => {
           </div>
         </motion.div>
 
-      </div> {/* End of Content Container */}
+      </div>
     </section>
   );
 };
