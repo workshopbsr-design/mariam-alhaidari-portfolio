@@ -151,4 +151,5 @@ export const Home = ({ onNavigate, info }: any) => {
             {hero.dna[lang].map((item, idx) => (
               <div key={idx} className="border-l border-white/10 pl-8">
                 <h3 className="text-xl font-serif italic mb-3 text-white">
-                  {item.title}
+  {item.title}
+</h3>
