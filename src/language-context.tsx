@@ -4,11 +4,7 @@ import { createContext, useContext, useState, ReactNode } from "react";
 
 export type Language = "ar" | "en" | "tr";
 
-interface Translations {
-  hero?: any;
-  footer?: any;
-  [key: string]: any;
-}
+type Translations = Record<string, any>;
 
 interface LanguageContextType {
   lang: Language;
@@ -19,15 +15,21 @@ interface LanguageContextType {
 
 /* ================= CONTEXT ================= */
 
-const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+const LanguageContext = createContext<LanguageContextType | null>(null);
 
-/* ================= TRANSLATIONS (PLACEHOLDER) ================= */
-/* لاحقًا تربطينها بملفات ترجمة حقيقية */
+/* ================= TRANSLATIONS ================= */
+/* مؤقتة – لاحقًا يمكن فصلها لملفات */
 
 const translations: Record<Language, Translations> = {
-  ar: {},
-  en: {},
-  tr: {},
+  ar: {
+    footer: "العمارة تتعلق بالمعنى",
+  },
+  en: {
+    footer: "Architecture is about meaning",
+  },
+  tr: {
+    footer: "Mimarlık anlamla ilgilidir",
+  },
 };
 
 /* ================= PROVIDER ================= */
@@ -35,11 +37,15 @@ const translations: Record<Language, Translations> = {
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [lang, setLang] = useState<Language>("ar");
 
-  const isRtl = lang === "ar";
-  const t = translations[lang];
+  const value: LanguageContextType = {
+    lang,
+    setLang,
+    isRtl: lang === "ar",
+    t: translations[lang] ?? {},
+  };
 
   return (
-    <LanguageContext.Provider value={{ lang, setLang, isRtl, t }}>
+    <LanguageContext.Provider value={value}>
       {children}
     </LanguageContext.Provider>
   );
@@ -47,10 +53,10 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
 /* ================= HOOK ================= */
 
-export function useLang() {
+export function useLang(): LanguageContextType {
   const context = useContext(LanguageContext);
   if (!context) {
-    throw new Error("useLang must be used within a LanguageProvider");
+    throw new Error("useLang must be used within <LanguageProvider>");
   }
   return context;
 }
