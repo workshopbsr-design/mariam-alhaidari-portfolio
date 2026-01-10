@@ -11,7 +11,7 @@ import {
   PenTool,
   CheckCircle,
 } from 'lucide-react';
-
+import { PROJECTS } from '../data/projects';
 /* ================= PROJECTS LIST ================= */
 
 export const Projects = ({ projects }: { projects: any[] }) => {
