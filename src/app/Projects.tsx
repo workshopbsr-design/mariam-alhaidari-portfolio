@@ -13,8 +13,7 @@ import {
 } from 'lucide-react';
 import { PROJECTS } from '../data/projects';
 /* ================= PROJECTS LIST ================= */
-
-export const Projects = ({ projects }: { projects: any[] }) => {
+export const Projects = () => {
   const { lang } = useLang();
   const [selectedProject, setSelectedProject] = useState<any>(null);
   const [filter, setFilter] = useState('All');
