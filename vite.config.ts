@@ -7,7 +7,7 @@ import process from 'process';
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   return {
-    base: '/mariam-alhaidari-portfolio/',
+    base: '/',
     plugins: [react()],
     resolve: {
       alias: [{ find: '@', replacement: fileURLToPath(new URL('./', import.meta.url)) }]
