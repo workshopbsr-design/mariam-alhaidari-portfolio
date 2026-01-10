@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, ReactNode } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLang } from '../language-context';
 import {
@@ -7,12 +7,13 @@ import {
   Image as ImageIcon,
   Info,
   GitBranch,
-  Quote,
   PenTool,
   CheckCircle,
 } from 'lucide-react';
 import { PROJECTS } from '../data/projects';
+
 /* ================= PROJECTS LIST ================= */
+
 export const Projects = () => {
   const { lang } = useLang();
   const [selectedProject, setSelectedProject] = useState<any>(null);
@@ -22,8 +23,8 @@ export const Projects = () => {
 
   const filteredProjects =
     filter === 'All'
-      ? projects
-      : projects.filter((p) => p.catEn === filter);
+      ? PROJECTS
+      : PROJECTS.filter((p) => p.catEn === filter);
 
   const getTitle = (p: any) =>
     lang === 'ar' ? p.titleAr : lang === 'tr' ? p.titleTr : p.titleEn;
@@ -63,7 +64,7 @@ export const Projects = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
             {filteredProjects.map((p, i) => (
               <motion.div
-                key={p.id || i}
+                key={p.id}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -79,17 +80,15 @@ export const Projects = () => {
                   />
                 </div>
 
-                <div>
-                  <span className="text-[9px] text-[#d4a373] uppercase tracking-widest">
-                    {getCat(p)}
-                  </span>
-                  <h3 className="text-2xl font-serif italic mt-2 mb-2">
-                    {getTitle(p)}
-                  </h3>
-                  <p className="text-xs text-white/50 line-clamp-2">
-                    {getDesc(p)}
-                  </p>
-                </div>
+                <span className="text-[9px] text-[#d4a373] uppercase tracking-widest">
+                  {getCat(p)}
+                </span>
+                <h3 className="text-2xl font-serif italic mt-2 mb-2">
+                  {getTitle(p)}
+                </h3>
+                <p className="text-xs text-white/50 line-clamp-2">
+                  {getDesc(p)}
+                </p>
               </motion.div>
             ))}
           </div>
@@ -156,7 +155,7 @@ const ProjectDetail = ({
       exit={{ opacity: 0, y: 50 }}
       className="fixed inset-0 z-[100] bg-[#0A0A0A] overflow-y-auto"
     >
-      <div className="sticky top-0 z-50 flex justify-between items-center px-6 py-6 bg-black/90 backdrop-blur border-b border-white/5">
+      <div className="sticky top-0 flex justify-between items-center px-6 py-6 bg-black/90 backdrop-blur border-b border-white/5">
         <h2 className="text-xl font-serif italic">{getTitle()}</h2>
         <button
           onClick={onClose}
@@ -167,48 +166,8 @@ const ProjectDetail = ({
       </div>
 
       <div className="max-w-5xl mx-auto px-6 py-20">
-        <div className="aspect-video mb-12">
-          <img
-            src={project.img}
-            className="w-full h-full object-cover"
-            alt={getTitle()}
-          />
-        </div>
-
-        <p className="text-lg text-white/70 leading-relaxed">
-          {getDesc()}
-        </p>
-
-        {project.story && (
-          <div className="mt-20 space-y-12">
-            <Section icon={<GitBranch size={14} />} title="Decision">
-              {project.story.decisionEn}
-            </Section>
-
-            <Section icon={<Info size={14} />} title="Challenge">
-              {project.story.challengeEn}
-            </Section>
-
-            <Section icon={<PenTool size={14} />} title="Concept">
-              {project.story.conceptEn}
-            </Section>
-
-            <Section icon={<CheckCircle size={14} />} title="Solution">
-              {project.story.solutionEn}
-            </Section>
-          </div>
-        )}
-
-        {project.gallery && (
-          <div className="mt-24 space-y-6">
-            <h3 className="flex items-center gap-2 text-[#d4a373] text-xs uppercase tracking-[0.2em]">
-              <ImageIcon size={14} /> Gallery
-            </h3>
-            {project.gallery.map((img: string, i: number) => (
-              <img key={i} src={img} className="w-full" />
-            ))}
-          </div>
-        )}
+        <img src={project.img} className="w-full mb-12" />
+        <p className="text-lg text-white/70">{getDesc()}</p>
       </div>
     </motion.div>
   );
@@ -221,14 +180,14 @@ const Section = ({
   title,
   children,
 }: {
-  icon: React.ReactNode;
+  icon: ReactNode;
   title: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }) => (
   <div>
     <h3 className="flex items-center gap-2 text-[#d4a373] text-xs uppercase tracking-[0.2em] mb-4">
       {icon} {title}
     </h3>
-    <p className="text-white/70 leading-relaxed">{children}</p>
+    <p className="text-white/70">{children}</p>
   </div>
 );
