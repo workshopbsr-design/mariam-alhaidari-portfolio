@@ -136,20 +136,27 @@ export const Home = ({ onNavigate, info }: any) => {
         </motion.button>
 
         {/* DNA */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1 }}
-          className="mt-32 border-t border-white/10 pt-16"
-        >
-          <div className="flex justify-center mb-16 text-[#d4a373] text-[10px] uppercase tracking-[0.4em] gap-2">
-            <Fingerprint size={14} /> {hero.dnaTitle[lang]}
-          </div>
+<motion.div
+  initial={{ opacity: 0 }}
+  whileInView={{ opacity: 1 }}
+  viewport={{ once: true }}
+  transition={{ duration: 1 }}
+  className="mt-32 border-t border-white/10 pt-16"
+>
+  <div className="flex justify-center mb-16 text-[#d4a373] text-[10px] uppercase tracking-[0.4em] gap-2">
+    <Fingerprint size={14} /> {hero.dnaTitle[lang]}
+  </div>
 
-          <div className="grid md:grid-cols-3 gap-12">
-            {hero.dna[lang].map((item, idx) => (
-              <div key={idx} className="border-l border-white/10 pl-8">
-                <h3 className="text-xl font-serif italic mb-3 text-white">
-  {item.title}
-</h3>
+  <div className="grid md:grid-cols-3 gap-12">
+    {hero.dna[lang].map((item, idx) => (
+      <div key={idx} className="border-l border-white/10 pl-8">
+        <h3 className="text-xl font-serif italic mb-3 text-white">
+          {item.title}
+        </h3>
+        <p className="text-sm text-white/60 leading-relaxed">
+          {item.desc}
+        </p>
+      </div>
+    ))}
+  </div>
+</motion.div>
