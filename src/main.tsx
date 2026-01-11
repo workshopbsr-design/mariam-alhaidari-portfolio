@@ -3,13 +3,13 @@ import { createRoot } from 'react-dom/client';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LanguageProvider } from './language-context';
 
-import { Header } from './app/Header';
-import { Home } from './app/Home';
-import { Projects } from './app/Projects';
-import { About } from './app/About';
-import { AiGenerator } from './app/AiGenerator';
-import { Admin } from './app/Admin';
-import { Contact } from './app/Contact';
+import { Header } from './app/header';
+import { Home } from './app/home';
+import { Projects } from './app/projects';
+import { About } from './app/about';
+import { AiGenerator } from './app/aigenerator';
+import { Admin } from './app/admin';
+import { Contact } from './app/contact';
 
 import { Instagram, Mail, MessageCircle } from 'lucide-react';
 import { PROJECTS as STATIC_PROJECTS } from './app/data';
