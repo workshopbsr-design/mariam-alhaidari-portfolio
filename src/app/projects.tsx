@@ -10,7 +10,7 @@ import {
   PenTool,
   CheckCircle,
 } from 'lucide-react';
-import { PROJECTS } from '../data/projects';
+import { PROJECTS } from './data';
 
 /* ================= PROJECTS LIST ================= */
 
