@@ -6,7 +6,7 @@ import { ArrowRight, Fingerprint } from 'lucide-react';
 export const Home = ({ onNavigate, info }: any) => {
   const { lang } = useLang();
 
-  // تعريف البيانات للنصوص (Data Definition)
+  /* ================= CONTENT MODEL ================= */
   const hero = {
     role: {
       en: 'Architect & Interior Designer',
@@ -24,9 +24,9 @@ export const Home = ({ onNavigate, info }: any) => {
       tr: 'Form, işlev ve duyguyu birleştiren çağdaş bir mimari yaklaşım.',
     },
     cta: {
-      en: 'View Projects',
-      ar: 'عرض المشاريع',
-      tr: 'Projeleri Gör',
+      en: 'View Selected Works',
+      ar: 'عرض الأعمال المختارة',
+      tr: 'Seçili Projeler',
     },
     dnaTitle: {
       en: 'Design DNA',
@@ -35,24 +35,50 @@ export const Home = ({ onNavigate, info }: any) => {
     },
     dna: {
       en: [
-        { title: 'Concept', desc: 'Every project starts with a strong conceptual narrative.' },
-        { title: 'Context', desc: 'Architecture that responds to culture, place, and people.' },
-        { title: 'Detail', desc: 'Precision in details creates timeless spaces.' },
+        {
+          title: 'Context First',
+          desc: 'Architecture is not an object; it is a response to its environment.',
+        },
+        {
+          title: 'Human-Centered',
+          desc: 'Spaces are shaped by emotions, not only by dimensions.',
+        },
+        {
+          title: 'Clarity Over Complexity',
+          desc: 'Eliminating the unnecessary to reveal the essential.',
+        },
       ],
       ar: [
-        { title: 'الفكرة', desc: 'كل مشروع يبدأ برؤية تصميمية واضحة.' },
-        { title: 'السياق', desc: 'عمارة تستجيب للمكان والثقافة والإنسان.' },
-        { title: 'التفاصيل', desc: 'الدقة في التفاصيل تصنع فراغات خالدة.' },
+        {
+          title: 'السياق أولاً',
+          desc: 'العمارة ليست كياناً منفصلاً بل استجابة للمكان.',
+        },
+        {
+          title: 'الإنسان أولاً',
+          desc: 'الفراغات تُبنى على الإحساس لا على الأبعاد فقط.',
+        },
+        {
+          title: 'الوضوح قبل التعقيد',
+          desc: 'إزالة الزائد لإبراز الجوهر.',
+        },
       ],
       tr: [
-        { title: 'Konsept', desc: 'Her proje güçlü bir tasarım fikriyle başlar.' },
-        { title: 'Bağlam', desc: 'Mekan, kültür ve insanla uyumlu mimari.' },
-        { title: 'Detay', desc: 'Detaylardaki hassasiyet zamansızlık yaratır.' },
+        {
+          title: 'Bağlam Öncelikli',
+          desc: 'Mimarlık bir nesne değil, çevresine verilen bir yanıttır.',
+        },
+        {
+          title: 'İnsan Odaklı',
+          desc: 'Mekanlar ölçülerle değil, duygularla şekillenir.',
+        },
+        {
+          title: 'Sadelik',
+          desc: 'Gereksizi kaldırarak özü ortaya çıkarmak.',
+        },
       ],
     },
   };
 
-  // تحديد اسم المهندس بناءً على اللغة
   const architectName =
     (lang === 'ar'
       ? info?.nameAr
@@ -60,108 +86,120 @@ export const Home = ({ onNavigate, info }: any) => {
       ? info?.nameTr
       : info?.nameEn) || 'Atelier';
 
+  /* ================= RENDER ================= */
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center px-4 pt-28 pb-20 overflow-hidden">
-      
-      {/* Background Image */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.5 }}
-        className="absolute inset-0 z-0"
-      >
-        <img
-          src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=2000&auto=format&fit=crop"
-          className="w-full h-full object-cover scale-105"
-          alt="Interior Architecture"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black" />
-      </motion.div>
-
-      {/* Main Content Container */}
-      <div className="relative z-10 text-center max-w-6xl mx-auto">
-
-        {/* Role Badge */}
+    <>
+      {/* ================= HERO ================= */}
+      <section className="relative min-h-screen flex items-center justify-center px-6 pt-32 overflow-hidden">
+        {/* Background */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="mb-6"
-        >
-          <span className="px-4 py-1.5 rounded-full border border-[#d4a373]/30 text-[#d4a373] text-[10px] uppercase tracking-[0.4em] bg-black/30">
-            {hero.role[lang]}
-          </span>
-        </motion.div>
-
-        {/* Architect Name */}
-        <motion.h1
-          initial={{ y: 30, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.4, duration: 1 }}
-          className="text-[8vw] md:text-[5rem] lg:text-[6rem] font-serif font-bold mb-6 text-white leading-[0.9]"
-        >
-          {architectName}
-        </motion.h1>
-
-        {/* Title */}
-        <motion.h2
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.7 }}
-          className="text-lg md:text-3xl font-serif italic text-white/60 mb-8"
+          transition={{ duration: 1.6 }}
+          className="absolute inset-0 z-0"
         >
-          {hero.title[lang]}
-        </motion.h2>
-
-        {/* Subtitle */}
-        <motion.p
-          initial={{ y: 30, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.9 }}
-          className="text-sm md:text-lg text-white/80 max-w-2xl mx-auto mb-14 font-light"
-        >
-          {hero.sub[lang]}
-        </motion.p>
-
-        {/* Call to Action Button */}
-        <motion.button
-          initial={{ y: 30, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 1.1 }}
-          onClick={() => onNavigate('projects')}
-          className="bg-[#E3D4B6] text-black px-10 py-5 rounded-full text-xs font-serif font-bold tracking-widest flex items-center gap-4 hover:scale-105 transition-all mx-auto"
-        >
-          {hero.cta[lang]}
-          <ArrowRight size={18} />
-        </motion.button>
-
-        {/* DNA Section (الذي كان يسبب الخطأ سابقاً) */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1 }}
-          className="mt-32 border-t border-white/10 pt-16"
-        >
-          <div className="flex justify-center items-center mb-16 text-[#d4a373] text-[10px] uppercase tracking-[0.4em] gap-2">
-            <Fingerprint size={14} /> {hero.dnaTitle[lang]}
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-12">
-            {hero.dna[lang].map((item, idx) => (
-              <div key={idx} className="border-l border-white/10 pl-8 text-left rtl:text-right rtl:border-l-0 rtl:border-r">
-                <h3 className="text-xl font-serif italic mb-3 text-white">
-                  {item.title}
-                </h3>
-                <p className="text-sm text-white/60 leading-relaxed">
-                  {item.desc}
-                </p>
-              </div>
-            ))}
-          </div>
+          <img
+            src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=2000&auto=format&fit=crop"
+            alt="Architectural Interior"
+            className="w-full h-full object-cover scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/95" />
         </motion.div>
 
-      </div>
-    </section>
+        {/* Content */}
+        <div className="relative z-10 text-center max-w-6xl mx-auto">
+          {/* Role */}
+          <motion.span
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="inline-block mb-6 px-4 py-1.5 rounded-full border border-[#d4a373]/30
+                       text-[#d4a373] text-[10px] uppercase tracking-[0.4em] bg-black/30"
+          >
+            {hero.role[lang]}
+          </motion.span>
+
+          {/* Name */}
+          <motion.h1
+            initial={{ y: 40, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.4, duration: 1 }}
+            className="font-serif text-[9vw] md:text-[5rem] lg:text-[6.2rem]
+                       leading-[0.9] text-white mb-6"
+          >
+            {architectName}
+          </motion.h1>
+
+          {/* Title */}
+          <motion.h2
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.7 }}
+            className="font-serif italic text-lg md:text-3xl text-white/60 mb-8"
+          >
+            {hero.title[lang]}
+          </motion.h2>
+
+          {/* Subtitle */}
+          <motion.p
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.9 }}
+            className="max-w-2xl mx-auto text-sm md:text-lg text-white/80 font-light mb-14"
+          >
+            {hero.sub[lang]}
+          </motion.p>
+
+          {/* CTA */}
+          <motion.button
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 1.1 }}
+            onClick={() => onNavigate('projects')}
+            className="mx-auto flex items-center gap-4 bg-[#E3D4B6] text-black
+                       px-10 py-5 rounded-full text-xs font-serif font-bold
+                       tracking-widest hover:scale-105 transition-all"
+          >
+            {hero.cta[lang]}
+            <ArrowRight size={18} />
+          </motion.button>
+        </div>
+      </section>
+
+      {/* ================= DESIGN DNA ================= */}
+      <section className="relative bg-black px-6 md:px-20 py-40">
+        <div className="max-w-6xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1 }}
+          >
+            <div className="flex justify-center items-center mb-20
+                            text-[#d4a373] text-[10px] uppercase tracking-[0.4em] gap-2">
+              <Fingerprint size={14} />
+              {hero.dnaTitle[lang]}
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-16">
+              {hero.dna[lang].map((item, idx) => (
+                <div
+                  key={idx}
+                  className="border-l border-white/10 pl-8
+                             rtl:pl-0 rtl:pr-8 rtl:border-l-0 rtl:border-r"
+                >
+                  <h3 className="font-serif italic text-xl text-white mb-4">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm text-white/60 leading-relaxed">
+                    {item.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+    </>
   );
 };
