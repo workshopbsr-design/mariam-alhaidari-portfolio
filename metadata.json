@@ -1,7 +1,7 @@
 {
-  "name": "mariam-alhaidari",
-  "description": "Premium architectural studio platform with AI narration and multilingual support.",
+  "name": "Mariam Portfolio",
   "requestFramePermissions": [
     "geolocation"
-  ]
+  ],
+  "description": ""
 }
