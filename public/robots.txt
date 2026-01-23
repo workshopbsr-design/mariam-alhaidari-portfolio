@@ -1,0 +1,9 @@
+
+User-agent: *
+Allow: /
+
+# Host
+Host: https://mariam-atelier.vercel.app/
+
+# Sitemaps
+Sitemap: https://mariam-atelier.vercel.app/sitemap.xml
