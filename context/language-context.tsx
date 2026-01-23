@@ -1,8 +1,6 @@
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { translations } from './translations';
-
-type Language = 'en' | 'ar' | 'tr';
+import { translations } from '../translations';
+import { Language } from '../types/schema';
 
 interface LanguageContextType {
   lang: Language;
@@ -14,10 +12,11 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [lang, setLang] = useState<Language>('en');
+  const [lang, setLang] = useState<Language>(() => (localStorage.getItem('app_lang') as Language) || 'en');
   const isRtl = lang === 'ar';
 
   useEffect(() => {
+    localStorage.setItem('app_lang', lang);
     document.documentElement.dir = isRtl ? 'rtl' : 'ltr';
     document.documentElement.lang = lang;
   }, [lang, isRtl]);
@@ -25,7 +24,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const value = {
     lang,
     setLang,
-    t: translations[lang],
+    t: (translations as any)[lang] || translations.en,
     isRtl
   };
 
