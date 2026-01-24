@@ -57,3 +57,4 @@ export const useSyncData = (defaultAbout: AboutInfo) => {
 
   return { projects, aboutInfo, contactInfo, syncFromLocal };
 };
+
