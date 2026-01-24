@@ -20,3 +20,4 @@ export const getStoryField = (story: any, lang: Language, field: string): string
   const fallbackKey = `${field}En`;
   return story[primaryKey] || story[fallbackKey] || "";
 };
+
