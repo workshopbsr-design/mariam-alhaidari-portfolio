@@ -16,9 +16,9 @@ const DEFAULT_ABOUT: AboutInfo = {
   fontArabic: "'Amiri', serif",
   fontSize: "16",
   nameFontSize: "80",
-  email: "mariam@atelier.com",
-  phone: "+966000000000",
-  instagram: "@mariam_arch",
+  email: "Alhaidarimariam@gmail.com",
+  phone: "+905436351693",
+  instagram: "https://www.instagram.com/smemo_5?igsh=MWF4bmRiMjk5MXM5bQ%3D%3D&utm_source=qr",
   resumeUrl: "",
   profileImage: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1200"
 };
