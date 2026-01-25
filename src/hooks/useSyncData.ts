@@ -8,7 +8,15 @@ export const useSyncData = (defaultAbout: AboutInfo) => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [aboutInfo, setAboutInfo] = useState<AboutInfo>(defaultAbout);
   const [contactInfo, setContactInfo] = useState<any>({});
+const syncFromLocal = () => {
+    const about = localStorage.getItem('general_about');
+    const contact = localStorage.getItem('general_contact');
+    const projects = localStorage.getItem('local_projects');
 
+    if (about) setAboutInfo(JSON.parse(about));
+    if (contact) setContactInfo(JSON.parse(contact));
+    if (projects) setProjects(JSON.parse(projects));
+  };
   // ✅ هذه الدالة كانت مفقودة
   const syncFromLocal = useCallback(() => {
     const localProjects = localStorage.getItem('local_projects');
