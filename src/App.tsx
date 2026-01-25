@@ -64,6 +64,7 @@ const App = () => {
               projects={projects}
               aboutInfo={aboutInfo}
               contactInfo={contactInfo}
+              onRefresh={syncFromLocal}
             />
           </main>
 
