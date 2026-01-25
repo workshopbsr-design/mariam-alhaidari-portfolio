@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { db } from '../services/firebase';
 import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
 import { PROJECTS as STATIC_PROJECTS } from '../data/projects.data';
@@ -8,6 +8,17 @@ export const useSyncData = (defaultAbout: AboutInfo) => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [aboutInfo, setAboutInfo] = useState<AboutInfo>(defaultAbout);
   const [contactInfo, setContactInfo] = useState<any>({});
+
+  // ✅ هذه الدالة كانت مفقودة
+  const syncFromLocal = useCallback(() => {
+    const localProjects = localStorage.getItem('local_projects');
+    const localAbout = localStorage.getItem('general_about');
+    const localContact = localStorage.getItem('general_contact');
+
+    if (localProjects) setProjects(JSON.parse(localProjects));
+    if (localAbout) setAboutInfo(prev => ({ ...prev, ...JSON.parse(localAbout) }));
+    if (localContact) setContactInfo(JSON.parse(localContact));
+  }, []);
 
   useEffect(() => {
     if (!db) return;
@@ -51,5 +62,10 @@ export const useSyncData = (defaultAbout: AboutInfo) => {
     };
   }, [defaultAbout]);
 
-  return { projects, aboutInfo, contactInfo, syncFromLocal };
+  return {
+    projects,
+    aboutInfo,
+    contactInfo,
+    syncFromLocal
+  };
 };
