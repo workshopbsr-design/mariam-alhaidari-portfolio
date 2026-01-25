@@ -105,3 +105,4 @@ export const useSyncData = (defaultAbout: AboutInfo) => {
     syncFromLocal
   };
 };
+
