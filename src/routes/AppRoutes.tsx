@@ -9,7 +9,13 @@ import { Admin } from '../pages/Admin';
 import { AiGenerator } from '../pages/AiGenerator';
 import { Project, AboutInfo } from '../types/schema';
 
-export const AppRoutes = ({ projects, aboutInfo, contactInfo, onRefresh }: { projects: Project[], aboutInfo: AboutInfo, contactInfo: any, onRefresh: () => void }) => {
+type AppRoutesProps = {
+  projects: Project[];
+  aboutInfo: AboutInfo;
+  contactInfo: any;
+};
+
+export const AppRoutes = ({ projects, aboutInfo, contactInfo }: AppRoutesProps) => {
   const location = useLocation();
 
   return (
@@ -27,16 +33,15 @@ export const AppRoutes = ({ projects, aboutInfo, contactInfo, onRefresh }: { pro
           <Route path="/about" element={<About info={aboutInfo} />} />
           <Route path="/contact" element={<Contact info={contactInfo} />} />
           <Route path="/ai" element={<AiGenerator />} />
-          <Route 
-            path="/admin" 
+          <Route
+            path="/admin"
             element={
-              <Admin 
-                projects={projects} 
-                about={aboutInfo} 
-                contact={contactInfo} 
-                onRefresh={onRefresh} 
+              <Admin
+                projects={projects}
+                about={aboutInfo}
+                contact={contactInfo}
               />
-            } 
+            }
           />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
