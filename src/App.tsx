@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Phone, Mail, Instagram, MessageCircle } from 'lucide-react';
+import { Mail, Instagram, MessageCircle } from 'lucide-react';
 import { Header } from './components/Header';
 import { IntroPause } from './components/IntroPause';
 import { AppRoutes } from './routes/AppRoutes';
@@ -26,11 +26,17 @@ const DEFAULT_ABOUT: AboutInfo = {
 const App = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [showIntro, setShowIntro] = useState(() => !sessionStorage.getItem('intro_seen'));
-  const { aboutInfo, projects, contactInfo, syncFromLocal } = useSyncData(DEFAULT_ABOUT);
+
+  const [showIntro, setShowIntro] = useState(
+    () => !sessionStorage.getItem('intro_seen')
+  );
+
+  const { aboutInfo, projects, contactInfo } = useSyncData(DEFAULT_ABOUT);
 
   useEffect(() => {
-    if (location.pathname !== '/' && showIntro) navigate('/', { replace: true });
+    if (location.pathname !== '/' && showIntro) {
+      navigate('/', { replace: true });
+    }
   }, [showIntro, navigate, location.pathname]);
 
   const handleIntroComplete = () => {
@@ -39,45 +45,79 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#050505] selection:bg-[#d4a373] selection:text-black" style={{ fontSize: `${aboutInfo.fontSize || "16"}px` }}>
+    <div
+      className="min-h-screen bg-[#050505] selection:bg-[#d4a373] selection:text-black"
+      style={{ fontSize: `${aboutInfo.fontSize || '16'}px` }}
+    >
       <AnimatePresence mode="wait">
-        {showIntro && <IntroPause key="intro" onComplete={handleIntroComplete} />}
+        {showIntro && (
+          <IntroPause key="intro" onComplete={handleIntroComplete} />
+        )}
       </AnimatePresence>
-      
+
       {!showIntro && (
         <>
           <Header />
-          <main className="relative z-10">
-            <AppRoutes projects={projects} aboutInfo={aboutInfo} contactInfo={contactInfo} onRefresh={syncFromLocal} />
-          </main>
-          
-          <footer className="px-6 py-48 bg-black border-t border-white/5 text-center relative z-20 overflow-hidden">
-             {/* Decorative background element */}
-             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-[#d4a373]/30 to-transparent" />
-             
-             <motion.div 
-               initial={{ opacity: 0, y: 20 }}
-               whileInView={{ opacity: 1, y: 0 }}
-               viewport={{ once: true }}
-             >
-               <div className="text-[#d4a373] font-serif italic text-6xl md:text-8xl mb-8 tracking-tighter">Atelier Mariam.</div>
-               
-               {/* Footer Social Icons - Keeping them clean at the bottom */}
-               <div className="flex justify-center gap-8 mb-12">
-                  {[
-                    { icon: MessageCircle, href: `https://wa.me/${aboutInfo.phone?.replace(/[^0-9]/g, '')}`, show: !!aboutInfo.phone },
-                    { icon: Mail, href: `mailto:${aboutInfo.email}`, show: !!aboutInfo.email },
-                    { icon: Instagram, href: `https://instagram.com/${aboutInfo.instagram?.replace('@','')}`, show: !!aboutInfo.instagram }
-                  ].map((s, i) => s.show && (
-                    <a key={i} href={s.href} target="_blank" rel="noopener noreferrer" className="text-[#d4a373]/40 hover:text-[#d4a373] transition-all duration-500 transform hover:scale-125">
-                      <s.icon size={28} strokeWidth={1} />
-                    </a>
-                  ))}
-               </div>
 
-               <p className="text-white/20 text-[10px] uppercase tracking-[1.2em] font-black mb-4">Architecture • Strategy • Human Experience</p>
-               <div className="w-12 h-px bg-[#d4a373]/20 mx-auto mt-8" />
-             </motion.div>
+          <main className="relative z-10">
+            <AppRoutes
+              projects={projects}
+              aboutInfo={aboutInfo}
+              contactInfo={contactInfo}
+            />
+          </main>
+
+          <footer className="px-6 py-48 bg-black border-t border-white/5 text-center relative z-20 overflow-hidden">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-[#d4a373]/30 to-transparent" />
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <div className="text-[#d4a373] font-serif italic text-6xl md:text-8xl mb-8 tracking-tighter">
+                Atelier Mariam.
+              </div>
+
+              <div className="flex justify-center gap-8 mb-12">
+                {[
+                  {
+                    icon: MessageCircle,
+                    href: `https://wa.me/${aboutInfo.phone?.replace(/[^0-9]/g, '')}`,
+                    show: !!aboutInfo.phone
+                  },
+                  {
+                    icon: Mail,
+                    href: `mailto:${aboutInfo.email}`,
+                    show: !!aboutInfo.email
+                  },
+                  {
+                    icon: Instagram,
+                    href: aboutInfo.instagram,
+                    show: !!aboutInfo.instagram
+                  }
+                ].map(
+                  (s, i) =>
+                    s.show && (
+                      <a
+                        key={i}
+                        href={s.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#d4a373]/40 hover:text-[#d4a373] transition-all duration-500 transform hover:scale-125"
+                      >
+                        <s.icon size={28} strokeWidth={1} />
+                      </a>
+                    )
+                )}
+              </div>
+
+              <p className="text-white/20 text-[10px] uppercase tracking-[1.2em] font-black mb-4">
+                Architecture • Strategy • Human Experience
+              </p>
+
+              <div className="w-12 h-px bg-[#d4a373]/20 mx-auto mt-8" />
+            </motion.div>
           </footer>
         </>
       )}
@@ -90,6 +130,7 @@ const App = () => {
           --dyn-name-size: ${aboutInfo.nameFontSize || "80"}px;
         }
       `}</style>
+
       <div className="noise-bg" />
     </div>
   );
