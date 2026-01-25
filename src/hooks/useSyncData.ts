@@ -51,5 +51,5 @@ export const useSyncData = (defaultAbout: AboutInfo) => {
     };
   }, [defaultAbout]);
 
-  return { projects, aboutInfo, contactInfo };
+  return { projects, aboutInfo, contactInfo, syncFromLocal };
 };
