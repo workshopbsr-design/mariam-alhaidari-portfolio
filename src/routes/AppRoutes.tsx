@@ -1,21 +1,15 @@
 import React from 'react';
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
+
 import { Home } from '../pages/Home';
 import { Projects } from '../pages/Projects';
 import { About } from '../pages/About';
 import { Contact } from '../pages/Contact';
 import { Admin } from '../pages/Admin';
 import { AiGenerator } from '../pages/AiGenerator';
-import { Project, AboutInfo } from '../types/schema';
 
-type AppRoutesProps = {
-  projects: Project[];
-  aboutInfo: AboutInfo;
-  contactInfo: any;
-};
-
-export const AppRoutes = ({ projects, aboutInfo, contactInfo }: AppRoutesProps) => {
+export const AppRoutes = () => {
   const location = useLocation();
 
   return (
@@ -28,21 +22,16 @@ export const AppRoutes = ({ projects, aboutInfo, contactInfo }: AppRoutesProps) 
         transition={{ duration: 0.6 }}
       >
         <Routes location={location}>
-          <Route path="/" element={<Home info={aboutInfo} />} />
-          <Route path="/projects" element={<Projects projects={projects} />} />
-          <Route path="/about" element={<About info={aboutInfo} />} />
-          <Route path="/contact" element={<Contact info={contactInfo} />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/ai" element={<AiGenerator />} />
-          <Route
-            path="/admin"
-            element={
-              <Admin
-                projects={projects}
-                about={aboutInfo}
-                contact={contactInfo}
-              />
-            }
-          />
+
+          {/* Admin route temporarily removed — will be reintroduced after data isolation */}
+{/* <Route path="/admin" element={<Admin />} /> */}
+          
+
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </motion.div>
