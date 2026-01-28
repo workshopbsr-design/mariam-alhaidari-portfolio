@@ -11,6 +11,7 @@ import { AboutInfo } from './types/schema';
 /**
  * ⚠️ Fallback مؤقت
  * سيتم استبداله لاحقًا بـ useAbout
+ * (وجوده هنا لا يعني تمرير بيانات للصفحات)
  */
 const DEFAULT_ABOUT: AboutInfo = {
   nameEn: "Mariam Al-Haidari",
@@ -57,16 +58,8 @@ const App: React.FC = () => {
           <Header />
 
           <main className="relative z-10">
-            {/* ⚠️ AppRoutes الآن بدون props */}
-            <AppRoutes
-  aboutInfo={about}
-  projects={[]}
-  contactInfo={{
-    email: about.email,
-    phone: about.phone,
-    instagram: about.instagram
-  }}
-/>
+            {/* ✅ AppRoutes بدون أي props */}
+            <AppRoutes />
           </main>
 
           {/* Footer */}
@@ -92,8 +85,9 @@ const App: React.FC = () => {
                   },
                   {
                     icon: Mail,
-                    href: about.email ? 
-                      `mailto:${about.email}` : null
+                    href: about.email
+                      ? `mailto:${about.email}`
+                      : null
                   },
                   {
                     icon: Instagram,
@@ -125,7 +119,7 @@ const App: React.FC = () => {
         </>
       )}
 
-      {/* Dynamic CSS Vars */}
+      {/* Dynamic CSS Vars (مؤقتة) */}
       <style>{`
         :root {
           --dyn-serif: ${about.fontSerif};
