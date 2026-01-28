@@ -1,13 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import React, { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Mail, Instagram, MessageCircle } from 'lucide-react';
+
 import { Header } from './components/Header';
 import { IntroPause } from './components/IntroPause';
 import { AppRoutes } from './routes/AppRoutes';
 
 import { AboutInfo } from './types/schema';
 
+/**
+ * ⚠️ Fallback مؤقت
+ * سيتم استبداله لاحقًا بـ useAbout
+ */
 const DEFAULT_ABOUT: AboutInfo = {
   nameEn: "Mariam Al-Haidari",
   nameAr: "مريم الحيدري",
@@ -18,14 +22,14 @@ const DEFAULT_ABOUT: AboutInfo = {
   nameFontSize: "80",
   email: "Alhaidarimariam@gmail.com",
   phone: "+905436351693",
-  instagram: "https://www.instagram.com/smemo_5?igsh=MWF4bmRiMjk5MXM5bQ%3D%3D&utm_source=qr",
+  instagram: "https://www.instagram.com/smemo_5",
   resumeUrl: "",
-  profileImage: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1200"
+  profileImage:
+    "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1200"
 };
 
-const App = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
+const App: React.FC = () => {
+  const about = DEFAULT_ABOUT;
 
   const [showIntro, setShowIntro] = useState(
     () => !sessionStorage.getItem('intro_seen')
@@ -39,8 +43,9 @@ const App = () => {
   return (
     <div
       className="min-h-screen bg-[#050505] selection:bg-[#d4a373] selection:text-black"
-      style={{ fontSize: `${aboutInfo.fontSize || '16'}px` }}
+      style={{ fontSize: `${about.fontSize || '16'}px` }}
     >
+      {/* Intro */}
       <AnimatePresence mode="wait">
         {showIntro && (
           <IntroPause key="intro" onComplete={handleIntroComplete} />
@@ -52,13 +57,11 @@ const App = () => {
           <Header />
 
           <main className="relative z-10">
-            <AppRoutes
-              projects={projects}
-              aboutInfo={aboutInfo}
-              contactInfo={contactInfo}
-            />
+            {/* ⚠️ AppRoutes الآن بدون props */}
+            <AppRoutes />
           </main>
 
+          {/* Footer */}
           <footer className="px-6 py-48 bg-black border-t border-white/5 text-center relative z-20 overflow-hidden">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-[#d4a373]/30 to-transparent" />
 
@@ -75,22 +78,21 @@ const App = () => {
                 {[
                   {
                     icon: MessageCircle,
-                    href: `https://wa.me/${aboutInfo.phone?.replace(/[^0-9]/g, '')}`,
-                    show: !!aboutInfo.phone
+                    href: about.phone
+                      ? `https://wa.me/${about.phone.replace(/[^0-9]/g, '')}`
+                      : null
                   },
                   {
                     icon: Mail,
-                    href: `mailto:${aboutInfo.email}`,
-                    show: !!aboutInfo.email
+                    href: about.email ? `mailto:${about.email}` : null
                   },
                   {
                     icon: Instagram,
-                    href: aboutInfo.instagram,
-                    show: !!aboutInfo.instagram
+                    href: about.instagram || null
                   }
                 ].map(
                   (s, i) =>
-                    s.show && (
+                    s.href && (
                       <a
                         key={i}
                         href={s.href}
@@ -114,12 +116,13 @@ const App = () => {
         </>
       )}
 
+      {/* Dynamic CSS Vars */}
       <style>{`
         :root {
-          --dyn-serif: ${aboutInfo.fontSerif || "'Bodoni Moda', serif"};
-          --dyn-sans: ${aboutInfo.fontSans || "'Plus Jakarta Sans', sans-serif"};
-          --dyn-arabic: ${aboutInfo.fontArabic || "'Amiri', serif"};
-          --dyn-name-size: ${aboutInfo.nameFontSize || "80"}px;
+          --dyn-serif: ${about.fontSerif};
+          --dyn-sans: ${about.fontSans};
+          --dyn-arabic: ${about.fontArabic};
+          --dyn-name-size: ${about.nameFontSize}px;
         }
       `}</style>
 
@@ -129,4 +132,3 @@ const App = () => {
 };
 
 export default App;
-
