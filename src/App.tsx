@@ -5,7 +5,7 @@ import { Mail, Instagram, MessageCircle } from 'lucide-react';
 import { Header } from './components/Header';
 import { IntroPause } from './components/IntroPause';
 import { AppRoutes } from './routes/AppRoutes';
-import { useSyncData } from './hooks/useSyncData';
+
 import { AboutInfo } from './types/schema';
 
 const DEFAULT_ABOUT: AboutInfo = {
@@ -30,14 +30,6 @@ const App = () => {
   const [showIntro, setShowIntro] = useState(
     () => !sessionStorage.getItem('intro_seen')
   );
-
-  const { aboutInfo, projects, contactInfo } = useSyncData(DEFAULT_ABOUT);
-
-  useEffect(() => {
-    if (location.pathname !== '/' && showIntro) {
-      navigate('/', { replace: true });
-    }
-  }, [showIntro, navigate, location.pathname]);
 
   const handleIntroComplete = () => {
     setShowIntro(false);
