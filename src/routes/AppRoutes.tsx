@@ -1,40 +1,32 @@
 import React from 'react';
-import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 import { Home } from '../pages/Home';
-import { Projects } from '../pages/Projects';
 import { About } from '../pages/About';
+import { Projects } from '../pages/Projects';
 import { Contact } from '../pages/Contact';
-import { Admin } from '../pages/Admin';
-import { AiGenerator } from '../pages/AiGenerator';
 
-export const AppRoutes = () => {
-  const location = useLocation();
+/**
+ * AppRoutes
+ * ------------------------------------------------------------------
+ * Zero-Intelligence Router
+ * - لا props
+ * - لا بيانات
+ * - لا منطق
+ * - Route = Boundary فقط
+ * ------------------------------------------------------------------
+ */
 
+export const AppRoutes: React.FC = () => {
   return (
-    <AnimatePresence mode="wait">
-      <motion.div
-        key={location.pathname}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        <Routes location={location}>
-          <Route path="/" element={<Home />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/ai" element={<AiGenerator />} />
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/projects" element={<Projects />} />
+      <Route path="/contact" element={<Contact />} />
 
-          {/* Admin route temporarily removed — will be reintroduced after data isolation */}
-{/* <Route path="/admin" element={<Admin />} /> */}
-          
-
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </motion.div>
-    </AnimatePresence>
+      {/* Fallback */}
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   );
 };
