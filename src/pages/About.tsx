@@ -7,31 +7,58 @@ import { useAbout } from '../hooks/useAbout';
 
 /**
  * About Page
- * - Self-contained
- * - No props
- * - Data source: useAbout only
- * - Safe fallback handling
+ * ----------------------------------------------------
+ * - Self-contained page (no props)
+ * - Single source of data: useAbout
+ * - Router passes ZERO data
+ * - Fully owns its loading / error / empty states
  */
-export const About = () => {
+export const About: React.FC = () => {
   const { t, lang, isRtl } = useLang();
   const { aboutInfo, isLoading, error } = useAbout();
 
   /* ------------------------------------------------------------------ */
-  /* 🛑 States                                                           */
+  /* 🛑 State handling                                                   */
   /* ------------------------------------------------------------------ */
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-white/40">
-        Loading…
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-14 w-14 border-t-2 border-[#d4a373] mx-auto mb-4" />
+          <p className="text-white/40 text-sm tracking-wider">
+            {isRtl ? 'جاري التحميل...' : 'Loading...'}
+          </p>
+        </div>
       </div>
     );
   }
 
-  if (error || !aboutInfo) {
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center px-6">
+        <div className="text-center">
+          <h2 className="text-xl text-red-400 mb-3">
+            {isRtl ? 'حدث خطأ' : 'Something went wrong'}
+          </h2>
+          <p className="text-white/60 mb-6 text-sm">
+            {error.message}
+          </p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-6 py-3 bg-white/5 hover:bg-white/10 rounded-full text-xs uppercase tracking-wider transition"
+          >
+            {isRtl ? 'إعادة المحاولة' : 'Retry'}
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (!aboutInfo) {
     return (
       <div className="min-h-screen flex items-center justify-center text-white/40">
-        {isRtl ? 'تعذر تحميل المعلومات' : 'Failed to load information'}
+        {isRtl ? 'لا توجد بيانات متاحة' : 'No data available'}
       </div>
     );
   }
@@ -40,7 +67,7 @@ export const About = () => {
   /* 🔧 Helpers                                                          */
   /* ------------------------------------------------------------------ */
 
-  const getContent = (key: string) => {
+  const getContent = (key: string): string => {
     const suffix = lang.charAt(0).toUpperCase() + lang.slice(1);
     return (
       (aboutInfo as any)[`${key}${suffix}`] ||
@@ -50,7 +77,7 @@ export const About = () => {
     );
   };
 
-  const profileImg =
+  const profileImage =
     aboutInfo.profileImage ||
     'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1200';
 
@@ -76,17 +103,19 @@ export const About = () => {
       className="max-w-6xl mx-auto px-6 py-40 min-h-screen"
       dir={isRtl ? 'rtl' : 'ltr'}
     >
+      {/* Image + Bio */}
       <div className="grid md:grid-cols-2 gap-16 lg:gap-24 mb-48 items-center">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.2 }}
+          transition={{ duration: 1.2, ease: 'easeOut' }}
           className="aspect-[4/5] bg-white/5 rounded-[3rem] overflow-hidden border border-white/10 shadow-2xl relative group"
         >
           <img
-            src={profileImg}
-            className="object-cover w-full h-full grayscale group-hover:grayscale-0 transition-all duration-1000 scale-100 group-hover:scale-105"
-            alt="Architect Profile"
+            src={profileImage}
+            alt={getContent('name') || 'Architect Profile'}
+            loading="lazy"
+            className="object-cover w-full h-full grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-40 group-hover:opacity-10 transition-opacity duration-700" />
         </motion.div>
@@ -94,7 +123,7 @@ export const About = () => {
         <motion.div
           initial={{ opacity: 0, x: isRtl ? -30 : 30 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.3 }}
+          transition={{ delay: 0.3, duration: 0.8 }}
         >
           <span className="text-[10px] uppercase tracking-[0.6em] text-[#d4a373] mb-6 block font-black">
             {t.about.bioTitle}
@@ -119,19 +148,22 @@ export const About = () => {
                 : 'bg-white/5 text-white/20 cursor-not-allowed'
             }`}
           >
-            <Download size={16} /> {t.about.download}
+            <Download size={16} />
+            {t.about.download}
           </a>
         </motion.div>
       </div>
 
+      {/* Philosophy Quote */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
         className="relative py-24 px-8 md:px-20 bg-white/[0.02] border border-white/5 rounded-[4rem] text-center mb-48"
       >
         <Quote className="text-[#d4a373]/20 mx-auto mb-10" size={80} />
-        <p className="text-4xl md:text-6xl font-serif italic text-white/90 leading-tight">
+        <p className="text-4xl md:text-6xl font-serif italic text-white/90 leading-tight max-w-4xl mx-auto">
           "{getContent('philosophy')}"
         </p>
       </motion.div>
