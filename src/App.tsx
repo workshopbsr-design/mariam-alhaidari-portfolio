@@ -58,7 +58,15 @@ const App: React.FC = () => {
 
           <main className="relative z-10">
             {/* ⚠️ AppRoutes الآن بدون props */}
-            <AppRoutes />
+            <AppRoutes
+  aboutInfo={about}
+  projects={[]}
+  contactInfo={{
+    email: about.email,
+    phone: about.phone,
+    instagram: about.instagram
+  }}
+/>
           </main>
 
           {/* Footer */}
@@ -84,7 +92,8 @@ const App: React.FC = () => {
                   },
                   {
                     icon: Mail,
-                    href: about.email ? `mailto:${about.email}` : null
+                    href: about.email ? 
+                      `mailto:${about.email}` : null
                   },
                   {
                     icon: Instagram,
