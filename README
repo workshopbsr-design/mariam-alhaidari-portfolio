@@ -1,0 +1,438 @@
+🏗️ System Architecture README
+
+> Primary Architectural Reference — Single Source of Truth
+
+This document defines the architectural principles, decisions, transitional strategies, and long-term vision for this system. All implementation must comply with this document unless an explicit ADR (Architectural Decision Record) states otherwise.
+
+
+
+
+---
+
+🎯 Architectural North Star
+
+We are not building pages. We are building a system that must live, evolve, and scale.
+
+This architecture prioritizes:
+
+Longevity over speed
+
+Explicit decisions over implicit hacks
+
+Modular growth over monolithic convenience
+
+Architectural governance over ad-hoc fixes
+
+
+
+---
+
+🧠 Core Architectural Principles
+
+1. Zero-Intelligence Router
+
+> The Router must contain no logic, no data, no conditions, no props.
+
+
+
+Router responsibilities:
+
+Route declaration only
+
+Component wiring only
+
+
+❌ Router must NOT:
+
+Fetch data
+
+Pass props
+
+Contain business logic
+
+Make architectural decisions
+
+
+
+---
+
+2. Self-Contained Pages
+
+Every page must be self-contained.
+
+A page:
+
+Owns its data access
+
+Owns its state
+
+Owns its side-effects
+
+
+❌ A page must NOT:
+
+Receive business data via props from Router
+
+Depend on parent for core data
+
+
+
+---
+
+3. Explicit Transitional Architecture
+
+Temporary solutions are allowed only if:
+
+They are documented
+
+They are tracked as Technical Debt
+
+They have a Sunset Clause
+
+They align with long-term architecture
+
+
+❌ Silent hacks are forbidden ❌ Implicit debt is forbidden
+
+
+---
+
+4. Feature-Based Architecture (Target)
+
+Long-term structure is Feature Modules, not Pages.
+
+We do NOT scale by files. We scale by bounded contexts and features.
+
+
+---
+
+🧩 Current Transitional State
+
+Projects Page
+
+Status: Transitional / Architecturally Acknowledged Debt
+
+Current issues:
+
+God Component (700+ lines)
+
+Mixed layers (UI + Data + Business Logic)
+
+Embedded features (comments, gallery, assets)
+
+
+This is intentional and documented during transition.
+
+
+---
+
+ADR-001 — Transitional useProjects Hook
+
+Status
+
+ACCEPTED
+
+
+---
+
+Context
+
+Projects page is a God Component
+
+It previously received data via Router props
+
+This violated Self-Contained principle
+
+
+
+---
+
+Decision
+
+Introduce a transitional useProjects hook to:
+
+Make Projects page self-contained
+
+Clean Router
+
+Preserve business continuity
+
+
+This hook is NOT final architecture.
+
+
+---
+
+Rationale
+
+Why this approach:
+
+Enables immediate Router compliance
+
+Avoids blocking other work
+
+Creates architectural breathing room
+
+Preserves architectural narrative
+
+
+Rejected alternatives:
+
+Full rewrite now ❌
+
+Keeping props ❌
+
+Silent temporary fix ❌
+
+
+
+---
+
+Consequences
+
+Positive:
+
+Router becomes Zero-Intelligence
+
+Page becomes Self-Contained
+
+Architectural governance preserved
+
+
+Negative (Managed):
+
+God Component remains temporarily
+
+Transitional hook added
+
+Requires scheduled refactor
+
+
+
+---
+
+Sunset Clause
+
+This transitional hook must be removed by Q3 2024 and replaced with:
+
+Feature-based modules
+
+Clean data layer
+
+Proper domain separation
+
+
+
+---
+
+Architectural Debt Register
+
+PRJ-001 — Projects Page God Component
+
+Component: Projects.tsx
+
+Type: Architectural
+
+Severity: High
+
+Introduced: Transitional Phase
+
+Target Resolution: Q3 2024
+
+
+Technical Description:
+
+700+ lines
+
+UI + Business Logic + Data Access mixed
+
+Embedded Comments, Gallery, Assets
+
+Firebase access at component level
+
+
+Business Impact if Unresolved:
+
+High maintenance cost
+
+Difficult parallel development
+
+High onboarding time
+
+Increased bug surface
+
+
+
+---
+
+Target Architecture — Feature Modules
+
+src/features/projects/
+├── list/           # Project listing & filtering
+├── detail/         # Project detail modal
+├── comments/       # Comments system
+├── gallery/        # Image gallery
+├── assets/         # 3D models, blueprints, media
+└── shared/
+    ├── hooks/      # Real domain hooks
+    ├── services/   # Data access layer
+    ├── context/    # Feature state
+    └── types/      # Domain types
+
+Benefits:
+
+Parallel team development
+
+Clear ownership
+
+Scalable complexity
+
+Testable features
+
+Reduced cognitive load
+
+
+
+---
+
+Migration Strategy
+
+We follow Strangler Pattern:
+
+1. Build new features alongside old
+
+
+2. Gradually extract responsibilities
+
+
+3. Run systems in parallel
+
+
+4. Cut over when stable
+
+
+
+No big-bang rewrites.
+
+
+---
+
+Governance Rules
+
+What is allowed:
+
+Transitional hooks (documented)
+
+Temporary architecture (with sunset)
+
+Explicit debt
+
+
+What is forbidden:
+
+Silent hacks
+
+Router logic
+
+Props as data layer
+
+Undocumented architectural changes
+
+
+
+---
+
+Team Operating Model
+
+We operate as System Architects, not task solvers.
+
+We prioritize:
+
+Architectural clarity
+
+Long-term maintainability
+
+Decision documentation
+
+System longevity
+
+
+
+---
+
+Execution Policy
+
+Once an ADR is:
+
+Accepted
+
+Documented
+
+
+➡️ It is executed.
+
+No architectural second-guessing without new ADR.
+
+
+---
+
+Current Approved Transitional Actions
+
+✅ Create useProjects.ts (Transitional)
+
+✅ Remove props from Projects.tsx
+
+✅ Keep God Component temporarily
+
+✅ Track debt explicitly
+
+
+
+---
+
+Architectural Timeline
+
+Q2 2024 (Now)
+
+Transitional hooks
+
+Router cleanup
+
+Debt documentation
+
+
+Q3 2024
+
+Feature extraction
+
+Data layer creation
+
+Modularization
+
+
+Q4 2024
+
+Optimization
+
+Documentation
+
+Architecture review
+
+
+
+---
+
+Final Statement
+
+> We are not optimizing for this sprint. We are optimizing for the next 3 years.
+
+
+
+Architecture is a leadership decision.
+
+This document is binding architectural governance.
+
+
+---
+
+Any deviation requires a new ADR.
