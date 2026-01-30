@@ -11,57 +11,12 @@ import { useAbout } from '../hooks/useAbout';
  * - Self-contained page (no props)
  * - Single source of data: useAbout
  * - Router passes ZERO data
- * - Fully owns its loading / error / empty states
+ * - NO async illusion
+ * - NO loading / error states (static in-memory data)
  */
 export const About: React.FC = () => {
   const { t, lang, isRtl } = useLang();
-  const { aboutInfo, isLoading, error } = useAbout();
-
-  /* ------------------------------------------------------------------ */
-  /* 🛑 State handling                                                   */
-  /* ------------------------------------------------------------------ */
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-14 w-14 border-t-2 border-[#d4a373] mx-auto mb-4" />
-          <p className="text-white/40 text-sm tracking-wider">
-            {isRtl ? 'جاري التحميل...' : 'Loading...'}
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="min-h-screen flex items-center justify-center px-6">
-        <div className="text-center">
-          <h2 className="text-xl text-red-400 mb-3">
-            {isRtl ? 'حدث خطأ' : 'Something went wrong'}
-          </h2>
-          <p className="text-white/60 mb-6 text-sm">
-            {error.message}
-          </p>
-          <button
-            onClick={() => window.location.reload()}
-            className="px-6 py-3 bg-white/5 hover:bg-white/10 rounded-full text-xs uppercase tracking-wider transition"
-          >
-            {isRtl ? 'إعادة المحاولة' : 'Retry'}
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  if (!aboutInfo) {
-    return (
-      <div className="min-h-screen flex items-center justify-center text-white/40">
-        {isRtl ? 'لا توجد بيانات متاحة' : 'No data available'}
-      </div>
-    );
-  }
+  const { aboutInfo } = useAbout(); // ✅ Pure Pass-Through
 
   /* ------------------------------------------------------------------ */
   /* 🔧 Helpers                                                          */
