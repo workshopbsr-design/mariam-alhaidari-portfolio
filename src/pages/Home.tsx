@@ -4,10 +4,11 @@ import { motion, useMotionValue, useSpring } from 'framer-motion';
 import { useLang } from '../context/language-context';
 import { ArrowRight } from 'lucide-react';
 import { HERO_CONFIG } from '../data/hero.data';
-import { AboutInfo } from '../types/schema';
+import { useHero } from '../hooks/useHero';
 
-export const Home = ({ info }: { info: AboutInfo }) => {
+export const Home = () => {
   const { lang, isRtl, t } = useLang();
+  const { heroInfo } = useHero();
   const navigate = useNavigate();
   
   const mouseX = useMotionValue(0);
@@ -24,9 +25,18 @@ export const Home = ({ info }: { info: AboutInfo }) => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [mouseX, mouseY]);
 
-  const architectName = (lang === 'ar' ? info?.nameAr : (lang === 'tr' ? info?.nameTr : info?.nameEn)) || t.hero.name;
-  const dynamicStatement = (lang === 'ar' ? info?.statementAr : (lang === 'tr' ? info?.statementTr : info?.statementEn)) || t.hero.sub;
-  const heroBackground = info?.heroBg || HERO_CONFIG.background;
+  const architectName =
+    lang === 'ar'
+      ? heroInfo.nameAr
+      : heroInfo.nameEn;
+
+  const dynamicStatement =
+    lang === 'ar'
+      ? heroInfo.statementAr
+      : heroInfo.statementEn;
+
+  const heroBackground =
+    heroInfo.heroBg || HERO_CONFIG.background;
 
   return (
     <section className="relative min-h-[140vh] flex flex-col items-center justify-start overflow-hidden bg-[#050505]">
@@ -35,7 +45,11 @@ export const Home = ({ info }: { info: AboutInfo }) => {
         style={{ x: springX, y: springY, scale: 1.1 } as any}
         className="fixed inset-0 z-0 w-full h-full pointer-events-none"
       >
-        <img src={heroBackground} className="w-full h-full object-cover opacity-50 grayscale-[20%]" alt="Background" />
+        <img
+          src={heroBackground}
+          className="w-full h-full object-cover opacity-50 grayscale-[20%]"
+          alt="Background"
+        />
         <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-[#050505]" />
       </motion.div>
 
@@ -67,10 +81,24 @@ export const Home = ({ info }: { info: AboutInfo }) => {
           {t.hero.title}
         </motion.h2>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 }}>
-          <button onClick={() => navigate('/projects')} className="group bg-white text-black px-12 py-6 md:px-16 md:py-7 rounded-full text-[10px] md:text-[11px] font-black uppercase tracking-[0.5em] flex items-center gap-6 hover:bg-[#d4a373] transition-all duration-500 shadow-2xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8 }}
+        >
+          <button
+            onClick={() => navigate('/projects')}
+            className="group bg-white text-black px-12 py-6 md:px-16 md:py-7 rounded-full text-[10px] md:text-[11px] font-black uppercase tracking-[0.5em] flex items-center gap-6 hover:bg-[#d4a373] transition-all duration-500 shadow-2xl mx-auto"
+          >
             <span>{t.hero.cta}</span>
-            <ArrowRight size={22} className={`transition-transform ${isRtl ? 'rotate-180 group-hover:-translate-x-4' : 'group-hover:translate-x-4'}`} />
+            <ArrowRight
+              size={22}
+              className={`transition-transform ${
+                isRtl
+                  ? 'rotate-180 group-hover:-translate-x-4'
+                  : 'group-hover:translate-x-4'
+              }`}
+            />
           </button>
         </motion.div>
 
@@ -78,10 +106,12 @@ export const Home = ({ info }: { info: AboutInfo }) => {
           {...HERO_CONFIG.animations.dnaGrid}
           className="mt-60 max-w-4xl mx-auto px-6 text-center"
         >
-            <p className="text-[#d4a373] text-[11px] uppercase tracking-[1em] font-black mb-12 opacity-60">{t.hero.statement}</p>
-            <p className="text-2xl md:text-4xl lg:text-5xl font-serif italic text-white/80 leading-[1.2] px-4">
-              "{dynamicStatement}"
-            </p>
+          <p className="text-[#d4a373] text-[11px] uppercase tracking-[1em] font-black mb-12 opacity-60">
+            {t.hero.statement}
+          </p>
+          <p className="text-2xl md:text-4xl lg:text-5xl font-serif italic text-white/80 leading-[1.2] px-4">
+            "{dynamicStatement}"
+          </p>
         </motion.div>
       </div>
     </section>
