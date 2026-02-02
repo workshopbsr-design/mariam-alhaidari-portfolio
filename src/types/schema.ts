@@ -78,7 +78,13 @@ export interface AboutInfo {
   statementAr?: string;
   statementTr?: string;
 }
-// src/types/schema.ts
+export interface HeroInfo {
+  nameEn: string;
+  nameAr: string;
+  statementEn: string;
+  statementAr: string;
+  heroBg: string;
+}
 
 export interface ContactInfo {
   phone: string;
@@ -86,3 +92,4 @@ export interface ContactInfo {
   instagram: string;
   address: string;
 }
+// src/types/schema.ts
